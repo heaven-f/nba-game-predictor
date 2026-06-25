@@ -1,53 +1,100 @@
-# NBA Game Outcome Predictor
+# 🏀 NBA Game Outcome Predictor
 
-## Project Goal
+A data analytics project that uses historical NBA game data to estimate game outcomes and explore factors that influence winning.
 
-Use historical NBA game data to analyze factors that influence game outcomes and build a predictive model to estimate game winners.
+---
 
-## Dataset
+## 🎯 Project Goal
 
-- Source: [Kaggle](https://www.kaggle.com/datasets/eoinamoore/historical-nba-data-and-player-box-scores)
-- Date Range Used: 2000–2026
-- Games Analyzed: 36,167
+Use historical NBA game data to analyze factors that influence game outcomes and build a predictive model to estimate winners.
 
-## Current Progress
+---
 
-- [x] Dataset acquired
-- [x] Exploratory Data Analysis
-- [x] Data Cleaning
-- [x] Team Strength Feature Engineering
-- [x] Recent Form Feature Engineering
-- [x] Prediction Function
-- [ ] Machine Learning Model Training
-- [ ] Model Evaluation
-- [ ] Streamlit App
+## 📊 Dataset
 
-## Current Model
+**Source:** [Kaggle](https://www.kaggle.com/datasets/eoinamoore/historical-nba-data-and-player-box-scores)
 
-The current prediction system uses:
+* Historical NBA games from 1946–2026
+* Current modeling focuses on games from **2000–present**
+* Approximately **36,000+ games** analyzed
 
-- Overall team strength
-- Recent form (last 10 games)
+---
 
-to estimate win probabilities and predict a winner.
+## 🚧 Current Progress
 
-Example:
+### Completed
+
+* [x] Dataset acquired
+* [x] Exploratory Data Analysis
+* [x] Data Cleaning
+* [x] Team Strength Feature Engineering
+* [x] Recent Form Feature Engineering
+* [x] Prediction Function
+
+### In Progress
+
+* [ ] Machine Learning Model Training
+* [ ] Model Evaluation
+* [ ] Streamlit Application
+
+---
+
+## 🧠 Current Model
+
+The current prediction system combines:
+
+* Team Strength
+
+  * Home win rate
+  * Away win rate
+
+* Recent Form
+
+  * Rolling win percentage over the last 10 games
+
+The model converts these metrics into win probabilities and predicts a winner for a given matchup.
+
+### Example
 
 ```python
 predict_game("Heat", "Bucks")
 ```
 
-## Tools Used
+Example output:
 
-- Python
-- Pandas
-- Jupyter Notebook
-- VS Code
+```text
+Heat: 52.4%
+Bucks: 47.6%
 
-## Future Improvements
+Predicted Winner: Heat
+```
 
-- Logistic Regression
-- Elo Ratings
-- Streamlit Web App
-- Player Statistics
-- Injury Data
+---
+
+## 🛠️ Tools Used
+
+* Python
+* Pandas
+* NumPy
+* Jupyter Notebook
+* VS Code
+
+---
+
+## 🚀 Future Improvements
+
+* Logistic Regression
+* Elo Rating System
+* Streamlit Web App
+* Player Statistics
+* Injury Data
+* Advanced Team Metrics
+
+---
+
+## 👤 Author
+
+Heaven Frazier
+
+B.S. Computer Science
+University of the District of Columbia
