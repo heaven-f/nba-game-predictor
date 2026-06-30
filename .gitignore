@@ -8,3 +8,4 @@ __pycache__/
 data/
 
 notes.md
+notebooks/01_explore_data.ipynb
