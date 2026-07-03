@@ -30,7 +30,7 @@ NBA-Game-Predictor/
 │
 ├── notebooks/
 │   ├── 01_dataset_exploration.ipynb
-│   └── 02_prediction_pipeline.ipynb
+│   └── 02_leakage_free_pipeline.ipynb
 │
 ├── README.md
 └── requirements.txt
