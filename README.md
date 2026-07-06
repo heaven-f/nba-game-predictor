@@ -1,114 +1,134 @@
 # 🏀 NBA Game Outcome Predictor
 
-Predicting NBA game outcomes using historical game data and leakage-free machine learning feature engineering.
+Machine learning pipeline that predicts NBA game outcomes using chronological, leakage-free feature engineering and logistic regression.
 
 ---
 
 ## 🎯 Project Goal
 
-Build a machine learning pipeline that engineers features chronologically, ensuring predictions are based only on information available before each game.
+Build a predictive model for NBA game outcomes using only information available before each game, ensuring strict chronological feature engineering and preventing data leakage.
 
 ---
 
 ## 📊 Dataset
 
-**Source:** [Kaggle](https://www.kaggle.com/datasets/eoinamoore/historical-nba-data-and-player-box-scores)
+**Source:** [Kaggle Dataset Link](https://www.kaggle.com/datasets/eoinamoore/historical-nba-data-and-player-box-scores)
 
-- Historical NBA games from 1946–2026
-- Current model trained using games from **2000–present**
-- Approximately **36,000+ regular season and playoff games**
+* Historical NBA games from 1946–2026  
+* Model focuses on games from **2000–present**
+* ~36,000+ games (regular season + playoffs)
 
 ---
 
 ## 📁 Repository Structure
 
-```
+```text
 NBA-Game-Predictor/
 │
 ├── data/
 │   └── nba_games.csv
 │
 ├── notebooks/
-│   ├── 01_dataset_exploration.ipynb
-│   └── 02_leakage_free_pipeline.ipynb
+│   ├── 01_exploration_and_draft.ipynb
+│   └── 02_nba_game_prediction_pipeline.ipynb
 │
 ├── README.md
 └── requirements.txt
+
 ```
 
 ---
 
-## ✅ Current Progress
+## ⚙️ Pipeline Overview
 
-### Completed
-- [x] Dataset acquisition and exploration
-- [x] Data cleaning and preprocessing
-- [x] Chronological team timeline construction
-- [x] Leakage-free rolling feature engineering
-- [x] Machine learning dataset construction
-
-### In Progress
-- [ ] Chronological train/test split
-- [ ] Logistic Regression model
-- [ ] Model evaluation
-
-### Planned
-- [ ] Streamlit web application
-- [ ] Feature importance visualization
-- [ ] Additional predictive features
-- [ ] Model comparison
-
----
-
-## 🧠 Features Engineered
-
-All rolling statistics are shifted to ensure they only use games that occurred before the prediction target, preventing data leakage.
-
-- Rolling 5-game win percentage
-- Rolling 10-game win percentage
-- Rolling 5-game average point differential
-- Rolling 10-game average point differential
-
----
-
-## ⚙️ Machine Learning Pipeline
-
-1. Load and prepare data
-2. Build chronological team timeline
-3. Create leakage-free rolling features
-4. Build machine learning dataset
-5. Chronological train/test split
+1. Load and clean dataset
+2. Build chronological team-level timeline
+3. Engineer leakage-free rolling features
+4. Construct machine learning dataset (home vs away features)
+5. Chronological train/test split (80/20)
 6. Train Logistic Regression model
 7. Evaluate model performance
-8. Predict new games
+8. Predict individual matchups
 
 ---
 
-## 🛠️ Technologies
+## 🧠 Feature Engineering
 
-- Python
-- Pandas
-- NumPy
-- scikit-learn
-- Jupyter Notebook
+All features are strictly leakage-free using `.shift(1)` so that only past games influence predictions.
+
+**Engineered features:**
+
+* 5-game rolling win percentage
+* 10-game rolling win percentage
+* 5-game average point differential
+* 10-game average point differential
+
+---
+
+## 📈 Model Performance
+
+**Model:** Logistic Regression
+
+* **Test Accuracy:** ~62.5%
+
+### Key Signals (Feature Importance)
+
+* Recent 10-game win form is the strongest predictor
+* Point differential contributes moderate signal
+* Home vs away advantage is captured indirectly through separate team features
+
+---
+
+## 🧪 Example Prediction
+
+```python
+predict_matchup("Lakers", "Celtics")
+```
+
+**Output:**
+
+```json
+{
+  "home_team": "Lakers",
+  "away_team": "Celtics",
+  "home_prob": 0.48,
+  "away_prob": 0.52,
+  "predicted_winner": "Celtics"
+}
+```
+
+---
+
+## 🛠️ Technologies Used
+
+* Python
+* Pandas
+* NumPy
+* scikit-learn
+* Jupyter Notebook
 
 ---
 
 ## 🚀 Future Improvements
 
-- Elo rating features
-- Rest days between games
-- Home court advantage metrics
-- Head-to-head history
-- Strength of schedule
-- Player availability and injury reports
-- Hyperparameter tuning
-- Multiple model comparison (Random Forest, XGBoost, etc.)
-- Streamlit deployment
+* Elo rating system
+* Player-level statistics integration
+* Injury and rest-day features
+* Strength of schedule adjustments
+* Hyperparameter tuning
+* Model comparison (Random Forest, XGBoost)
+* Streamlit deployment for interactive predictions
 
 ---
 
 ## 👤 Author
 
-Heaven Frazier
-B.S. Computer Science — University of the District of Columbia
+**Heaven Frazier** *B.S. Computer Science — University of the District of Columbia*
+
+---
+
+## 📝 Notes for Reviewers
+
+* All rolling features use `.shift(1)` to prevent leakage.
+* Train/test split is chronological (not random).
+* Model simulates real-world prediction conditions.
