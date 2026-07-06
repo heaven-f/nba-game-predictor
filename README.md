@@ -82,7 +82,12 @@ All features are strictly leakage-free using `.shift(1)` so that only past games
 ## 🧪 Example Prediction
 
 ```python
-predict_matchup("Lakers", "Celtics")
+games = [
+    ("Lakers", "Celtics")
+]
+
+for home, away in games:
+    print(predict_matchup(home, away))
 ```
 
 **Output:**
