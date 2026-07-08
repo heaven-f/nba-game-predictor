@@ -71,8 +71,6 @@ TEAM_LOGOS = {
     "Wizards": "https://a.espncdn.com/i/teamlogos/nba/500/wsh.png",
 }
 
-
-# Header
 st.markdown(
     "<h1 style='text-align:center; margin-top:0px;'>NBA Game Outcome Predictor</h1>",
     unsafe_allow_html=True

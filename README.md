@@ -1,139 +1,184 @@
 # 🏀 NBA Game Outcome Predictor
 
-Machine learning pipeline that predicts NBA game outcomes using chronological, leakage-free feature engineering and logistic regression.
+An end-to-end machine learning application that predicts NBA game outcomes using chronological, leakage-free feature engineering and an interactive Streamlit dashboard.
+
+The project combines a complete machine learning pipeline with a user-facing web application where users can select NBA matchups and receive predicted win probabilities based on historical team performance.
 
 ---
 
-## 🎯 Project Goal
+## Application Demo
 
-Build a predictive model for NBA game outcomes using only information available before each game, ensuring strict chronological feature engineering and preventing data leakage.
-
----
-
-## 📊 Dataset
-
-**Source:** [Kaggle Dataset Link](https://www.kaggle.com/datasets/eoinamoore/historical-nba-data-and-player-box-scores)
-
-* Historical NBA games from 1946–2026  
-* Model focuses on games from **2000–present**
-* ~36,000+ games (regular season + playoffs)
+![NBA Game Predictor Demo](assets/nba_predictor_demo.png)
 
 ---
 
-## 📁 Repository Structure
+## Project Goal
 
-```text
-NBA-Game-Predictor/
-│
-├── data/
-│   └── nba_games.csv
-│
-├── notebooks/
-│   ├── 01_exploration_and_draft.ipynb
-│   └── 02_nba_game_prediction_pipeline.ipynb
-│
-├── README.md
-└── requirements.txt
+The goal of this project was to build a realistic NBA prediction system that only uses information available before each game occurs.
 
-```
+To simulate real-world prediction conditions, the pipeline focuses on:
+
+* Chronological data processing
+* Leakage-free feature engineering
+* Time-based train/test validation
+* Historical team performance trends
 
 ---
 
-## ⚙️ Pipeline Overview
+## Dataset
 
-1. Load and clean dataset
-2. Build chronological team-level timeline
-3. Engineer leakage-free rolling features
-4. Construct machine learning dataset (home vs away features)
-5. Chronological train/test split (80/20)
-6. Train Logistic Regression model
-7. Evaluate model performance
-8. Predict individual matchups
+**Source:** [Kaggle Historical NBA Data and Player Box Scores Dataset](https://www.kaggle.com/datasets/eoinamoore/historical-nba-data-and-player-box-scores)
+
+Dataset details:
+
+* Historical NBA games from 1946–2026
+* Model training focuses on the modern NBA era (2000–present)
+* 36,000+ games used after filtering and preprocessing
+* Includes regular season and playoff games
 
 ---
 
-## 🧠 Feature Engineering
+## Machine Learning Pipeline
 
-All features are strictly leakage-free using `.shift(1)` so that only past games influence predictions.
+The prediction pipeline consists of the following stages:
 
-**Engineered features:**
+1. Load and clean historical NBA data
+2. Filter games to the modern NBA era
+3. Build chronological team-level performance timelines
+4. Engineer leakage-free rolling statistics
+5. Create matchup-based machine learning features
+6. Perform an 80/20 chronological train/test split
+7. Train a Logistic Regression classifier
+8. Evaluate model performance
+9. Generate predictions for new NBA matchups
+
+---
+
+## Feature Engineering
+
+All features are designed to prevent data leakage. Rolling statistics use `.shift(1)` so that each prediction only uses information from games that occurred before the predicted matchup.
+
+Engineered features include:
 
 * 5-game rolling win percentage
 * 10-game rolling win percentage
 * 5-game average point differential
 * 10-game average point differential
 
----
-
-## 📈 Model Performance
-
-**Model:** Logistic Regression
-
-* **Test Accuracy:** ~62.5%
-
-### Key Signals (Feature Importance)
-
-* Recent 10-game win form is the strongest predictor
-* Point differential contributes moderate signal
-* Home vs away advantage is captured indirectly through separate team features
+Separate home and away team features are generated to create matchup-level predictions.
 
 ---
 
-## 🧪 Example Prediction
+## Model Performance
 
-```python
-games = [
-    ("Lakers", "Celtics")
-]
+**Model:** Logistic Regression, chosen as a strong, interpretable baseline before testing more complex models
+**Validation Method:** Chronological 80/20 train/test split
+**Test Accuracy:** ~62.5%
 
-for home, away in games:
-    print(predict_matchup(home, away))
+The model performs above the historical home win baseline while maintaining a realistic evaluation strategy that avoids random data leakage.
+
+---
+
+## Streamlit Application Features
+
+The interactive dashboard allows users to:
+
+* Select any NBA matchup
+* View team logos and matchup information
+* Generate predicted win probabilities
+* See the predicted winner
+* Compare recent team performance
+* View last 10 game form indicators
+
+---
+
+## Repository Structure
+
+```text
+NBA-Game-Predictor/
+│
+├── app.py                         # Streamlit application
+│
+├── artifacts/
+│   ├── model.pkl                  # Trained Logistic Regression model
+│   ├── team_timeline.pkl          # Chronological team performance data
+│   └── feature_cols.pkl           # Model feature definitions
+│
+├── src/
+│   └── predict.py                 # Model loading and prediction functions
+│
+├── assets/
+│   ├── nba_logo_transparent.png
+│   └── nba_predictor_demo.png     # Application screenshot
+│
+├── data/
+│   └── nba_games.csv              # Local dataset (not included)
+│
+├── notebooks/
+│   ├── 01_exploration_and_draft.ipynb
+│   └── 02_nba_game_prediction_pipeline.ipynb
+│
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
+*The raw dataset is not included due to size and licensing considerations. Download it from the Kaggle link above and place it in the `data/` directory.*
+
+---
+
+## Running the Application
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/heaven-f/nba-game-predictor.git
+cd nba-game-predictor
 ```
 
-**Output:**
+### 2. Install dependencies
 
-```json
-{
-  "home_team": "Lakers",
-  "away_team": "Celtics",
-  "home_prob": 0.48,
-  "away_prob": 0.52,
-  "predicted_winner": "Celtics"
-}
+```bash
+pip install -r requirements.txt
 ```
+
+### 3. Launch the Streamlit dashboard
+
+```bash
+streamlit run app.py
+```
+
+The application will open in your browser where you can select teams and generate predictions.
 
 ---
 
-## 🛠️ Technologies Used
+## Technologies Used
 
 * Python
 * Pandas
 * NumPy
 * scikit-learn
+* Streamlit
 * Jupyter Notebook
+* Git
 
 ---
 
-## 🚀 Future Improvements
+## Future Improvements
 
-* Elo rating system
-* Player-level statistics integration
-* Injury and rest-day features
+Potential improvements for future versions include:
+
+* Elo rating integration
+* Player-level performance features
+* Injury and availability data
+* Rest days and travel effects
 * Strength of schedule adjustments
-* Hyperparameter tuning
-* Model comparison (Random Forest, XGBoost)
-* Streamlit deployment for interactive predictions
+* Additional model comparisons (Random Forest, XGBoost)
+* Model deployment with live NBA data
 
 ---
 
-## 👤 Author
+## Author
 
-**Heaven Frazier** *B.S. Computer Science — University of the District of Columbia*
-
----
-
-## 📝 Notes for Reviewers
-
-* All rolling features use `.shift(1)` to prevent leakage.
-* Train/test split is chronological (not random).
-* Model simulates real-world prediction conditions.
+**Heaven Frazier**
+B.S. Computer Science
+University of the District of Columbia
